@@ -8,8 +8,9 @@ const { redisEndpointUri, numberOfRequests, requestExpiry } = config;
 const redisClient = createClient({ url: redisEndpointUri });
 
 const limiter = new (RateLimit as any)({
-    store: new RedisStore({
-        client: redisClient,
+    store: new (RedisStore as any)({
+        host: 'localhost', 
+        port: 6379,
         expiry: Number(requestExpiry),
     }),
     max: numberOfRequests, // limit each IP to 100 requests per windowMs
