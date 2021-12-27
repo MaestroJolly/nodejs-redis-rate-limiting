@@ -3,14 +3,14 @@ import RedisStore from "rate-limit-redis";
 import RateLimit from "express-rate-limit";
 import config from "../config";
 
-const { redisEndpointUri, numberOfRequests, requestExpiry } = config;
+const { redisEndpointUri, numberOfRequests, requestExpiry, redisHost, redisPort } = config;
 
-const redisClient = createClient({ url: redisEndpointUri });
+const redisClient = createClient();
 
 const limiter = new (RateLimit as any)({
     store: new (RedisStore as any)({
-        host: 'localhost', 
-        port: 6379,
+        host: redisHost, 
+        port: redisPort,
         expiry: Number(requestExpiry),
     }),
     max: numberOfRequests, // limit each IP to 100 requests per windowMs
